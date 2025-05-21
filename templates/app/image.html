@@ -26,9 +26,15 @@
             processData:false,
             contentType:false,
             success:function(response){
-                if(response){
-                $('button').text('Uploded');
+                if(response.status == 'pass'){
+                alert(response.message)
                 location.reload();
+                }
+                else if(response.status == 'fail'){
+                    alert(response.message)
+                }
+                else{
+                    alert("something went wrong")
                 }
             },
             error:function(){
