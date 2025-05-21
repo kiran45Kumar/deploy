@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <input type="file" id="img">
+    <button onclick="UploadImage()">Upload</button>
+    {% for item in imgs %}
+        <img src="{{item.image.url}}" height="100px" width="100px" alt="">
+    {% endfor %}
+</body>
+<script>
+    function UploadImage(){
+        let img = $("#img")[0].files[0];
+        const formdata = new FormData();
+        formdata.append('img', img);
+        $('button').text('Uploading....')
+        $.ajax({
+            type:"POST",
+            url:"/upload/upload_image/",
+            data:formdata,
+            processData:false,
+            contentType:false,
+            success:function(response){
+                if(response){
+                $('button').text('Uploded');
+                location.reload();
+                }
+            },
+            error:function(){
+                alert('Failed to Upload');
+
+            }
+        })
+    }
+</script>
+</html>

@@ -1,0 +1,64 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.sqlite3-journal
+db.sqlite3
+db.sqlite3-journal
+
+# Media / uploads (optional - depends on if you store user uploads locally)
+media/
+user_images/
+uploads/
+
+# Django migrations (optional - you might want to keep these)
+**/migrations/
+!*/migrations/__init__.py
+
+# Environment variables
+.env
+.env.*
+
+# Static files (only if you're collecting them)
+staticfiles/
+static/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.python-version
+
+# VS Code settings
+.vscode/
+.code-workspace
+
+# PyCharm settings
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Test / coverage files
+.coverage
+htmlcov/
+coverage.xml
+*.cover
+*.py,cover
+.cache
+nosetests.xml
+pytest_cache/
