@@ -10,7 +10,7 @@
     <input type="file" id="img">
     <button onclick="UploadImage()">Upload</button>
     {% for item in imgs %}
-        <img src="{{item.image.url}}" height="100px" width="100px" alt="">
+        <img src="{{item.image.url}}" height="100px" width="100px" style="object-fit: cover;" alt="">
     {% endfor %}
 </body>
 <script>
