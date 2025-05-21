@@ -1,47 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Upload</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
+
 <body>
     <input type="file" id="img">
     <button onclick="UploadImage()">Upload</button>
     {% for item in imgs %}
-        <img src="{{item.image.url}}" height="100px" width="100px" style="object-fit: cover;" alt="">
+    <img src="{{item.image.url}}" height="100px" width="100px" style="object-fit: cover;" alt="">
     {% endfor %}
 </body>
 <script>
-    function UploadImage(){
+    function UploadImage() {
         let img = $("#img")[0].files[0];
         const formdata = new FormData();
         formdata.append('img', img);
         $('button').text('Uploading....')
         $.ajax({
-            type:"POST",
-            url:"/upload_image/",
-            data:formdata,
-            processData:false,
-            contentType:false,
-            success:function(response){
-                if(response.status == 'pass'){
-                alert(response.message)
-                location.reload();
+            type: "POST",
+            url: "/upload_image/",
+            data: formdata,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.status == 'pass') {
+                    alert(response.message)
+                    $('button').text('Uploading....')
+                    location.reload();
                 }
-                else if(response.status == 'fail'){
+                else if (response.status == 'fail') {
+                    $('button').text('Uploading....')
                     alert(response.message)
                 }
-                else{
+                else {
                     alert("something went wrong")
+                    $('button').text('Uploading....')
+
+
                 }
             },
-            error:function(){
+            error: function () {
                 alert('Failed to Upload');
 
             }
         })
     }
 </script>
+
 </html>
