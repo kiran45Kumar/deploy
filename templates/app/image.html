@@ -30,16 +30,16 @@
             success: function (response) {
                 if (response.status == 'pass') {
                     alert(response.message)
-                    $('button').text('Uploading....')
+                    $('button').text('Upload')
                     location.reload();
                 }
                 else if (response.status == 'fail') {
-                    $('button').text('Uploaded')
+                    $('button').text('Upload')
                     alert(response.message)
                 }
                 else {
                     alert("something went wrong")
-                    $('button').text('Uploaded')
+                    $('button').text('Upload')
 
 
                 }
