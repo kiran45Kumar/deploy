@@ -16,7 +16,7 @@
         class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
         id="img" type="file">
 
-    <button type="button" onclick="UploadImage()"
+    <button type="button" id="upload-btn" onclick="UploadImage()"
         class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Upload</button>
     <div class="flex items-center justify-evenly flex-wrap">
         {% for item in imgs %}
@@ -27,9 +27,9 @@
                     class="m-2 cursor-pointer focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                     onclick="DeleteImage('{{item.id}}')" id="dlt-btn-{{item.id}}">Delete</button>
             </div>
-
-
         </div>
+        {% empty %}
+        <p>No Images found</p>
         {% endfor %}
     </div>
 </body>
@@ -38,7 +38,7 @@
         let img = $("#img")[0].files[0];
         const formdata = new FormData();
         formdata.append('img', img);
-        $('button').text('Uploading....')
+        $('#upload-btn').text('Uploading....')
         $.ajax({
             type: "POST",
             url: "/upload_image/",
@@ -85,6 +85,9 @@
                         setTimeout(()=>{
                             location.reload()
                         },2000)
+                    }
+                    else if(response.status == 'fail'){
+                        alert(response['message'])
                     }
                     else {
                         alert("Failed to delete")
