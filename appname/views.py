@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from.models import *
+from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.generic import TemplateView
 # Create your views here.
@@ -56,6 +57,16 @@ class UploadImage(APIView):
             print(e)
             return JsonResponse({"status": "fail", "message": str(e)})
 
-
+class DeleteImage(APIView):
+    def delete(self,request):
+        try:
+            id = request.data.get('id')
+            image = User.objects.get(id = id)
+            image.delete()
+            return JsonResponse({"status":"pass","message":"Image deleted succesfully"})
+        except Exception as e:
+            return JsonResponse({"status":"fail","message":"Image not found"})
+        finally:
+            print("Delete API")
         
 

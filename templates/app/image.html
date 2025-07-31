@@ -6,14 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Upload</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
 <body>
-    <input type="file" id="img">
-    <button onclick="UploadImage()">Upload</button>
-    {% for item in imgs %}
-    <img src="{{item.image.url}}" height="100px" width="100px" style="object-fit: cover;" alt="">
-    {% endfor %}
+
+    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label>
+    <input
+        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+        id="img" type="file">
+
+    <button type="button" onclick="UploadImage()"
+        class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Upload</button>
+    <div class="flex items-center justify-evenly flex-wrap">
+        {% for item in imgs %}
+        <div class="m-8">
+            <img src="{{item.image.url}}" class="h-25 w-25 rounded-md" style="object-fit: cover;" alt="">
+            <div class="flex justify-center items-center">
+                <button type="button"
+                    class="m-2 cursor-pointer focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                    onclick="DeleteImage('{{item.id}}')" id="dlt-btn-{{item.id}}">Delete</button>
+            </div>
+
+
+        </div>
+        {% endfor %}
+    </div>
 </body>
 <script>
     function UploadImage() {
@@ -49,6 +67,35 @@
 
             }
         })
+    }
+
+    function DeleteImage(id) {
+        $("#dlt-btn-"+id).text("Deleting...")
+        if (confirm("Are you sure you want to delete this image?")) {
+            $.ajax({
+                type: "DELETE",
+                url: "/delete/",
+                data: {
+                    "id": id,
+                },
+                success: function (response) {
+                    if (response.status == 'pass') {
+                        $("#dlt-btn-"+id).text("Delete")
+                        alert(response['message'])
+                        setTimeout(()=>{
+                            location.reload()
+                        },2000)
+                    }
+                    else {
+                        alert("Failed to delete")
+                    }
+                },
+                error: function (error) {
+                    alert("Something went")
+                }
+            })
+        }
+
     }
 </script>
 
